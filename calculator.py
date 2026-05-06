@@ -161,7 +161,13 @@ class CalculatorApp(tk.Tk):
         main.grid(row=0, column=0, sticky="nsew")
 
         # Display (read-only Entry)
-        self.display = ttk.Entry(main, textvariable=self.display_var, justify="right", state="readonly", width=24)
+        self.display = ttk.Entry(
+            main,
+            textvariable=self.display_var,
+            justify="right",
+            state="readonly",
+            width=24,
+        )
         self.display.grid(row=0, column=0, columnspan=4, pady=(0, 8))
 
         # Button layout

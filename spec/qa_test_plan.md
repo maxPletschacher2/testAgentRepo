@@ -1,47 +1,39 @@
-# QA-Testplan: Tkinter Taschenrechner
+# QA Test Plan for Reaction Game
 
-Ziel
-- Verifizieren, dass die einfache Taschenrechner-App (Tkinter) den Anforderungen entspricht: GUI startbar, Buttons funktionieren, Grundrechenarten korrekt, Fehlerbehandlung (v. a. Division durch 0), wartbarer Code.
+## Test Scenarios
 
-Umgebung
-- Python 3.x
-- Keine externen Bibliotheken notwendig (nur Standardbibliothek)
+### Core Game Logic
+1. **Tile Spawning**
+   - Verify 1 tile spawns every second
+   - Test random position within game field
 
-Start
-- App: `python calculator.py`
-- Tests: `python -m pytest -q`
+2. **Click Handling**
+   - Confirm tile removal on click
+   - Score increment validation
 
-Checkliste – Manuelle GUI-Tests
-1) Start & Oberfläche
-   - Fenster öffnet ohne Fehler
-   - Display/Eingabefeld vorhanden
-   - Buttons vorhanden: Ziffern 0–9; Operatoren +, -, *, /; Dezimalpunkt "."; C; =
+3. **Game Over Logic**
+   - Trigger game over at 10 tiles
+   - Verify game state stops
 
-2) Grundfunktionen
-   - Addition: `12.3 + 4.7 =` -> Ergebnis `17.0` (oder äquivalenter Float)
-   - Subtraktion: `9 - 2 =` -> `7`
-   - Multiplikation: `5 * 6 =` -> `30`
-   - Division: `8 / 4 =` -> `2`
-   - Mehrstellige Zahlen: `123 + 456 =` -> `579`
-   - Dezimalzahlen: `1.5 + 2.35 =` -> `3.85`
+### GUI Tests
+1. **UI Responsiveness**
+   - Stress test with 9+ tiles
+   - Check for UI freezes
 
-3) Fehlerbehandlung
-   - Division durch 0: `9 / 0 =` -> verständliche Fehlermeldung (z. B. "Division durch 0" oder "Fehler")
-   - Nach Fehler: `C` setzt den Rechner zurück (Display wieder leer oder `0`)
+2. **Visual Feedback**
+   - Validate score display updates
+   - Game over message visibility
 
-4) Eingabe-Robustheit
-   - Mehrere Dezimalpunkte in einer Zahl verhindern: Eingabe `1..2` darf nicht akzeptiert werden bzw. muss klar behandelt werden
-   - Keine Abstürze bei schneller/ungewöhnlicher Eingabe
+### Edge Cases
+1. **Rapid Clicking**
+   - Simulate multiple clicks per tile
 
-5) Optional (falls vorhanden)
-   - Wiederholtes `=` wiederholt letzte Operation sinnvoll
-   - Tastatureingabe: Ziffern und Enter unterstützen (nicht zwingend gefordert)
+2. **Boundary Conditions**
+   - Test tile positions at screen edges
 
-Erwartete Ergebnisse
-- Alle Funktionen liefern korrekte Ergebnisse
-- UI bleibt responsiv, kein Crash
-- Fehlerzustände werden verständlich kommuniziert und sind durch `C` rücksetzbar
-
-Dokumentation der Ergebnisse
-- Notieren: getestete Schritte, beobachtete Ergebnisse, Abweichungen (inkl. Repro-Schritte)
-- Bei Fehlern: erwartetes vs. tatsächliches Verhalten, Logs/Konsolen-Output, ggf. Screenshots
+## Test Execution
+- Run all unit tests via `pytest tests/`
+- Manual playtesting required for:
+  - Difficulty progression
+  - Restart functionality
+  - Optional features (sound, colors)

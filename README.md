@@ -1,36 +1,36 @@
-# Einfache Taschenrechner-App (Python + Tkinter)
+# plemeo.ai Onepage Landingpage
 
-Eine simple grafische Taschenrechner-App in Python mit Tkinter. Unterstützt Grundrechenarten, mehrstellige Zahlen und Dezimalzahlen. Fehler (z. B. Division durch 0) werden verständlich angezeigt.
+Diese Repository-Version enthält eine eigenständige HTML-Onepage für plemeo.ai.
+Die Seite stellt Produktinformationen bereit und endet mit einem Kontaktformular.
 
-## Voraussetzungen
-- Python 3 (keine externen Bibliotheken erforderlich)
+## Inhalt
+- `index.html`: komplette Landingpage in reinem HTML, CSS und minimalem JavaScript
+- `tests/test_plemeo_onepage.py`: automatisierte Prüfungen für Seitenstruktur und Kontaktformular
+- `calculator.py`: vorhandene Beispielanwendung aus dem Repository bleibt unverändert erhalten
 
-## Start
+## Lokales Öffnen
+Die Seite kann direkt im Browser geöffnet werden:
+
+```bash
+xdg-open index.html
 ```
-python calculator.py
+
+Falls das auf deinem System nicht verfügbar ist, kannst du die Datei auch über einen lokalen Webserver ausliefern, zum Beispiel:
+
+```bash
+python3 -m http.server 8000
 ```
-
-## Bedienung und Funktionen
-- Ziffern 0–9, Dezimalpunkt "."
-- Operatoren: +, -, *, /
-- = zur Auswertung
-- C zum Zurücksetzen
-- Mehrstellige Zahlen und Dezimalzahlen werden unterstützt
-- Division durch 0 zeigt: "Fehler: Division durch 0"
-
-Hinweise:
-- Ungültige Eingaben (z. B. mehrfacher Dezimalpunkt in derselben Zahl) werden verhindert.
-- Nach einer Fehlermeldung kann der Rechner über C zurückgesetzt werden.
 
 ## Tests ausführen
-Es gibt Unit-Tests für die Rechenlogik (ohne GUI), damit das Verhalten automatisiert geprüft werden kann.
+Die automatisierten Prüfungen laufen mit der Standardbibliothek:
 
+```bash
+python3 -m unittest
 ```
-python -m unittest
-```
 
-Die GUI lässt sich manuell prüfen, indem man die App startet und die Buttons bedient.
-
-## Struktur
-- `calculator.py`: Tkinter-GUI und `CalculatorEngine` (Rechenlogik)
-- `tests/test_calculator_engine.py`: Unit-Tests für die Engine
+## Was die Seite enthält
+- Hero-Bereich mit plemeo.ai Positionierung
+- Produktbeschreibung und Vorteile
+- Ablauf-/Nutzenabschnitte
+- Kontaktbereich mit Formular am Seitenende
+- Kleine Rückmeldung nach dem Absenden des Formulars

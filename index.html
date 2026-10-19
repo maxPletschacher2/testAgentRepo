@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>plemeo.ai — Produktive KI für Teams</title>
+    <meta
+      name="description"
+      content="plemeo.ai unterstützt Teams mit KI-gestützten Workflows, klaren Freigaben und messbaren Ergebnissen."
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f8fc;
+        --surface: rgba(255, 255, 255, 0.86);
+        --surface-strong: #ffffff;
+        --text: #10203a;
+        --muted: #53637f;
+        --line: #d9e3f2;
+        --accent: #5b7cff;
+        --accent-2: #1fbf75;
+        --shadow: 0 22px 60px rgba(16, 32, 58, 0.12);
+        --radius: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(91, 124, 255, 0.18), transparent 28%),
+          radial-gradient(circle at top right, rgba(31, 191, 117, 0.16), transparent 26%),
+          var(--bg);
+        line-height: 1.55;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 48px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 12px 0 28px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        font-size: 1.12rem;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--accent), #8fa8ff);
+        box-shadow: 0 16px 30px rgba(91, 124, 255, 0.24);
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+        align-items: stretch;
+      }
+
+      .panel {
+        background: var(--surface);
+        border: 1px solid rgba(217, 227, 242, 0.88);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(12px);
+      }
+
+      .hero-copy {
+        padding: 42px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(91, 124, 255, 0.08);
+        color: #3551d5;
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin: 18px 0 18px;
+        font-size: clamp(2.4rem, 4vw, 4.4rem);
+        line-height: 1.02;
+        letter-spacing: -0.06em;
+      }
+
+      .lead {
+        font-size: 1.12rem;
+        color: var(--muted);
+        max-width: 62ch;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 18px;
+        border-radius: 14px;
+        border: 1px solid transparent;
+        font-weight: 700;
+      }
+
+      .button.primary {
+        background: linear-gradient(135deg, var(--accent), #7f9cff);
+        color: white;
+        box-shadow: 0 18px 24px rgba(91, 124, 255, 0.24);
+      }
+
+      .button.secondary {
+        background: white;
+        border-color: var(--line);
+        color: var(--text);
+      }
+
+      .hero-card {
+        padding: 28px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .stat {
+        padding: 16px;
+        border-radius: 18px;
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.22rem;
+        margin-bottom: 4px;
+      }
+
+      .kicker {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .section {
+        margin-top: 24px;
+        padding: 32px;
+      }
+
+      .section-title {
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        letter-spacing: -0.03em;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .feature {
+        padding: 22px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid var(--line);
+      }
+
+      .feature h3 {
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      .feature p {
+        color: var(--muted);
+        margin-bottom: 0;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .list {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--muted);
+      }
+
+      .steps {
+        display: grid;
+        gap: 14px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 54px 1fr;
+        gap: 14px;
+        align-items: start;
+        padding: 18px;
+        border-radius: 18px;
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+      }
+
+      .step-number {
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        color: white;
+        background: linear-gradient(135deg, var(--accent-2), #42d18f);
+      }
+
+      .step h3 {
+        margin-bottom: 6px;
+      }
+
+      .contact-wrap {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 20px;
+        align-items: start;
+      }
+
+      .contact-card,
+      .info-card {
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 24px;
+      }
+
+      .contact-card {
+        display: grid;
+        gap: 14px;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      label {
+        display: grid;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: #fbfcff;
+        color: var(--text);
+        padding: 13px 14px;
+        font: inherit;
+      }
+
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+
+      input:focus,
+      textarea:focus,
+      button:focus {
+        outline: 3px solid rgba(91, 124, 255, 0.2);
+        outline-offset: 2px;
+      }
+
+      .form-note {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .submit-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .button.submit {
+        border: 0;
+        cursor: pointer;
+        background: linear-gradient(135deg, #10203a, #263b66);
+        color: white;
+      }
+
+      .status {
+        min-height: 1.4em;
+        color: var(--accent-2);
+        font-weight: 600;
+      }
+
+      .contact-details {
+        display: grid;
+        gap: 12px;
+      }
+
+      .detail {
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: rgba(91, 124, 255, 0.06);
+        border: 1px solid rgba(91, 124, 255, 0.12);
+      }
+
+      .detail strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      footer {
+        padding: 24px 0 10px;
+        color: var(--muted);
+        font-size: 0.94rem;
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .split,
+        .contact-wrap,
+        .features {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy,
+        .section {
+          padding: 24px;
+        }
+
+        .field-grid,
+        .stat-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar" aria-label="Seitennavigation">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>plemeo.ai</span>
+        </div>
+        <nav class="nav">
+          <a href="#produkt">Produkt</a>
+          <a href="#vorteile">Vorteile</a>
+          <a href="#ablauf">Ablauf</a>
+          <a href="#kontakt">Kontakt</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="panel hero-copy">
+            <span class="eyebrow">KI-gestützte Produktivität für moderne Teams</span>
+            <h1>Mehr Klarheit, weniger Reibung — mit plemeo.ai.</h1>
+            <p class="lead">
+              plemeo.ai bündelt Informationen, priorisiert Aufgaben und unterstützt Teams dabei,
+              schneller Entscheidungen zu treffen. Die Einzelseite zeigt auf einen Blick, was das
+              Produkt leistet und wie man direkt Kontakt aufnehmen kann.
+            </p>
+            <div class="cta-row">
+              <a class="button primary" href="#kontakt">Demo anfragen</a>
+              <a class="button secondary" href="#produkt">Mehr erfahren</a>
+            </div>
+          </div>
+
+          <aside class="panel hero-card" aria-label="Produktübersicht">
+            <div>
+              <p class="kicker">Was plemeo.ai auszeichnet</p>
+              <h2 class="section-title" style="margin-bottom: 10px;">Ein zentrales System für fokussiertes Arbeiten</h2>
+              <p class="kicker">
+                Für Teams, die ihre Anfragen, Entscheidungen und nächsten Schritte an einem Ort
+                organisieren möchten.
+              </p>
+            </div>
+            <div class="stat-grid">
+              <div class="stat">
+                <strong>Schneller</strong>
+                <span class="kicker">Weniger Abstimmungsschleifen</span>
+              </div>
+              <div class="stat">
+                <strong>Transparenter</strong>
+                <span class="kicker">Klare Status und Prioritäten</span>
+              </div>
+              <div class="stat">
+                <strong>Skalierbar</strong>
+                <span class="kicker">Für kleine Teams und wachsende Organisationen</span>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="panel section" id="produkt">
+          <h2 class="section-title">Produkt</h2>
+          <div class="split">
+            <div>
+              <p class="kicker">
+                plemeo.ai unterstützt operative Teams mit strukturierter KI-Assistenz für Inhalte,
+                Zusammenfassungen und Freigaben.
+              </p>
+              <ul class="list">
+                <li>Informationen werden komprimiert und verständlich dargestellt.</li>
+                <li>Wichtige Aufgaben und nächste Schritte bleiben sichtbar.</li>
+                <li>Die Einzelseite ist bewusst klar, schnell und mobil nutzbar gehalten.</li>
+              </ul>
+            </div>
+            <div>
+              <p class="kicker">
+                Typische Einsatzbereiche sind interne Kommunikation, Lead-Bearbeitung, Produkt-Updates
+                und die strukturierte Übergabe zwischen Teammitgliedern.
+              </p>
+              <ul class="list">
+                <li>Produkt- und Unternehmensinfos auf einer kompakten Seite</li>
+                <li>Kontaktaufnahme ohne Umwege</li>
+                <li>Gute Basis für spätere Erweiterungen oder Backend-Integration</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel section" id="vorteile">
+          <h2 class="section-title">Vorteile</h2>
+          <div class="features">
+            <article class="feature">
+              <h3>Struktur statt Informationschaos</h3>
+              <p>
+                Inhalte werden in klare Abschnitte gegliedert, damit Besucher sofort verstehen,
+                worum es geht.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Vertrauen durch klare Sprache</h3>
+              <p>
+                Die Texte sprechen Nutzen und Anwendung direkt an und vermeiden unnötige Komplexität.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Kontakt am Ende der Seite</h3>
+              <p>
+                Das Formular steht bewusst am Seitenende, damit Interessenten erst informiert werden
+                und dann unkompliziert anfragen können.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel section" id="ablauf">
+          <h2 class="section-title">Ablauf</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div>
+                <h3>Informationsaufnahme</h3>
+                <p class="kicker">
+                  Besucher erhalten auf der Startseite die wichtigsten Produktinformationen in kurzer,
+                  verständlicher Form.
+                </p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div>
+                <h3>Interesse vertiefen</h3>
+                <p class="kicker">
+                  Vorteile, Nutzen und typische Einsatzbereiche geben einen klaren Überblick über den
+                  Mehrwert von plemeo.ai.
+                </p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div>
+                <h3>Kontakt aufnehmen</h3>
+                <p class="kicker">
+                  Am Ende der Seite steht das Formular bereit, damit Anfragen direkt formuliert und
+                  weiterverarbeitet werden können.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel section" id="kontakt">
+          <h2 class="section-title">Kontakt</h2>
+          <div class="contact-wrap">
+            <div class="info-card">
+              <p class="kicker">
+                Sende uns eine kurze Nachricht über das Kontaktformular, wenn du plemeo.ai für dein
+                Team einsetzen möchtest oder Fragen zur Lösung hast.
+              </p>
+              <div class="contact-details">
+                <div class="detail">
+                  <strong>E-Mail</strong>
+                  hallo@plemeo.ai
+                </div>
+                <div class="detail">
+                  <strong>Antwortzeit</strong>
+                  In der Regel innerhalb eines Werktags
+                </div>
+                <div class="detail">
+                  <strong>Hinweis</strong>
+                  Diese Seite ist bewusst als eigenständige HTML-Landingpage aufgebaut und benötigt
+                  kein externes Frontend-Framework.
+                </div>
+              </div>
+            </div>
+
+            <form class="contact-card" id="contact-form">
+              <div class="field-grid">
+                <label>
+                  Name
+                  <input name="name" type="text" autocomplete="name" placeholder="Max Mustermann" required />
+                </label>
+                <label>
+                  E-Mail
+                  <input name="email" type="email" autocomplete="email" placeholder="max@beispiel.de" required />
+                </label>
+              </div>
+              <label>
+                Unternehmen / Thema
+                <input
+                  name="subject"
+                  type="text"
+                  placeholder="plemeo.ai Einführung im Team"
+                  required
+                />
+              </label>
+              <label>
+                Nachricht
+                <textarea
+                  name="message"
+                  placeholder="Worum geht es, und wobei können wir helfen?"
+                  required
+                ></textarea>
+              </label>
+              <p class="form-note">
+                Das Formular ist für die statische HTML-Seite vorbereitet und zeigt nach dem Senden
+                eine kurze Bestätigung an.
+              </p>
+              <div class="submit-row">
+                <button class="button submit" type="submit">Nachricht senden</button>
+                <div class="status" id="form-status" aria-live="polite"></div>
+              </div>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        &copy; 2026 plemeo.ai — Einfache, eigenständige Onepage-Website in reinem HTML.
+      </footer>
+    </div>
+
+    <script>
+      const form = document.getElementById("contact-form");
+      const status = document.getElementById("form-status");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        status.textContent = "Danke! Die Nachricht wurde lokal erfasst und kann jetzt an das Backend angebunden werden.";
+        form.reset();
+      });
+    </script>
+  </body>
+</html>

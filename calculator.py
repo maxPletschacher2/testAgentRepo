@@ -1,5 +1,9 @@
-import tkinter as tk
-from tkinter import ttk
+try:
+    import tkinter as tk
+    from tkinter import ttk
+except ModuleNotFoundError:  # pragma: no cover - depends on local Python install
+    tk = None
+    ttk = None
 
 
 class CalculatorEngine:
@@ -144,110 +148,117 @@ class CalculatorEngine:
         return self._format_number(self.current_value)
 
 
-class CalculatorApp(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("Einfacher Taschenrechner")
-        self.resizable(False, False)
-        self.engine = CalculatorEngine()
+if tk is None or ttk is None:
+    class CalculatorApp:  # pragma: no cover - only used when tkinter is unavailable
+        def __init__(self):
+            raise RuntimeError("tkinter is not available in this environment")
+else:
+    class CalculatorApp(tk.Tk):
+        def __init__(self):
+            super().__init__()
+            self.title("Einfacher Taschenrechner")
+            self.resizable(False, False)
+            self.engine = CalculatorEngine()
 
-        self.display_var = tk.StringVar(value=self.engine.get_display())
+            self.display_var = tk.StringVar(value=self.engine.get_display())
 
-        self._build_ui()
-        self._update_display()
+            self._build_ui()
+            self._update_display()
 
-    def _build_ui(self):
-        main = ttk.Frame(self, padding=10)
-        main.grid(row=0, column=0, sticky="nsew")
+        def _build_ui(self):
+            main = ttk.Frame(self, padding=10)
+            main.grid(row=0, column=0, sticky="nsew")
 
-        # Display (read-only Entry)
-        self.display = ttk.Entry(
-            main,
-            textvariable=self.display_var,
-            justify="right",
-            state="readonly",
-            width=24,
-        )
-        self.display.grid(row=0, column=0, columnspan=4, pady=(0, 8))
+            # Display (read-only Entry)
+            self.display = ttk.Entry(
+                main,
+                textvariable=self.display_var,
+                justify="right",
+                state="readonly",
+                width=24,
+            )
+            self.display.grid(row=0, column=0, columnspan=4, pady=(0, 8))
 
-        # Button layout
-        # Rows:
-        # 7 8 9 /
-        # 4 5 6 *
-        # 1 2 3 -
-        # C 0 . +
-        # = (spans all columns)
-        buttons = [
-            ("7", 1, 0, self._mk_digit_cb('7')),
-            ("8", 1, 1, self._mk_digit_cb('8')),
-            ("9", 1, 2, self._mk_digit_cb('9')),
-            ("/", 1, 3, lambda: self._on_operator('/')),
+            # Button layout
+            # Rows:
+            # 7 8 9 /
+            # 4 5 6 *
+            # 1 2 3 -
+            # C 0 . +
+            # = (spans all columns)
+            buttons = [
+                ("7", 1, 0, self._mk_digit_cb('7')),
+                ("8", 1, 1, self._mk_digit_cb('8')),
+                ("9", 1, 2, self._mk_digit_cb('9')),
+                ("/", 1, 3, lambda: self._on_operator('/')),
 
-            ("4", 2, 0, self._mk_digit_cb('4')),
-            ("5", 2, 1, self._mk_digit_cb('5')),
-            ("6", 2, 2, self._mk_digit_cb('6')),
-            ("*", 2, 3, lambda: self._on_operator('*')),
+                ("4", 2, 0, self._mk_digit_cb('4')),
+                ("5", 2, 1, self._mk_digit_cb('5')),
+                ("6", 2, 2, self._mk_digit_cb('6')),
+                ("*", 2, 3, lambda: self._on_operator('*')),
 
-            ("1", 3, 0, self._mk_digit_cb('1')),
-            ("2", 3, 1, self._mk_digit_cb('2')),
-            ("3", 3, 2, self._mk_digit_cb('3')),
-            ("-", 3, 3, lambda: self._on_operator('-')),
+                ("1", 3, 0, self._mk_digit_cb('1')),
+                ("2", 3, 1, self._mk_digit_cb('2')),
+                ("3", 3, 2, self._mk_digit_cb('3')),
+                ("-", 3, 3, lambda: self._on_operator('-')),
 
-            ("C", 4, 0, self._on_clear),
-            ("0", 4, 1, self._mk_digit_cb('0')),
-            (".", 4, 2, self._on_dot),
-            ("+", 4, 3, lambda: self._on_operator('+')),
-        ]
+                ("C", 4, 0, self._on_clear),
+                ("0", 4, 1, self._mk_digit_cb('0')),
+                (".", 4, 2, self._on_dot),
+                ("+", 4, 3, lambda: self._on_operator('+')),
+            ]
 
-        for text, r, c, cmd in buttons:
-            btn = ttk.Button(main, text=text, command=cmd, width=5)
-            btn.grid(row=r, column=c, padx=3, pady=3, sticky="nsew")
+            for text, r, c, cmd in buttons:
+                btn = ttk.Button(main, text=text, command=cmd, width=5)
+                btn.grid(row=r, column=c, padx=3, pady=3, sticky="nsew")
 
-        eq_btn = ttk.Button(main, text="=", command=self._on_equals)
-        eq_btn.grid(row=5, column=0, columnspan=4, sticky="nsew", pady=(6, 0))
+            eq_btn = ttk.Button(main, text="=", command=self._on_equals)
+            eq_btn.grid(row=5, column=0, columnspan=4, sticky="nsew", pady=(6, 0))
 
-        # Configure grid weights minimally
-        for r in range(1, 6):
-            main.rowconfigure(r, weight=1)
-        for c in range(4):
-            main.columnconfigure(c, weight=1)
+            # Configure grid weights minimally
+            for r in range(1, 6):
+                main.rowconfigure(r, weight=1)
+            for c in range(4):
+                main.columnconfigure(c, weight=1)
 
-    def _mk_digit_cb(self, d: str):
-        return lambda: self._on_digit(d)
+        def _mk_digit_cb(self, d: str):
+            return lambda: self._on_digit(d)
 
-    def _on_digit(self, d: str):
-        if self.engine.error:
-            # Ignore input until cleared, per requirements resetting after error via C
-            return
-        self.engine.press_digit(d)
-        self._update_display()
+        def _on_digit(self, d: str):
+            if self.engine.error:
+                # Ignore input until cleared, per requirements resetting after error via C
+                return
+            self.engine.press_digit(d)
+            self._update_display()
 
-    def _on_dot(self):
-        if self.engine.error:
-            return
-        self.engine.press_dot()
-        self._update_display()
+        def _on_dot(self):
+            if self.engine.error:
+                return
+            self.engine.press_dot()
+            self._update_display()
 
-    def _on_operator(self, op: str):
-        if self.engine.error:
-            return
-        self.engine.press_operator(op)
-        self._update_display()
+        def _on_operator(self, op: str):
+            if self.engine.error:
+                return
+            self.engine.press_operator(op)
+            self._update_display()
 
-    def _on_equals(self):
-        if self.engine.error:
-            return
-        self.engine.press_equals()
-        self._update_display()
+        def _on_equals(self):
+            if self.engine.error:
+                return
+            self.engine.press_equals()
+            self._update_display()
 
-    def _on_clear(self):
-        self.engine.press_clear()
-        self._update_display()
+        def _on_clear(self):
+            self.engine.press_clear()
+            self._update_display()
 
-    def _update_display(self):
-        self.display_var.set(self.engine.get_display())
+        def _update_display(self):
+            self.display_var.set(self.engine.get_display())
 
 
 if __name__ == "__main__":
+    if tk is None or ttk is None:
+        raise SystemExit("tkinter is not available in this environment")
     app = CalculatorApp()
     app.mainloop()

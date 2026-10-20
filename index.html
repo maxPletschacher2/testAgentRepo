@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Standalone Onepager für die BMW 4er Reihe mit Produktinformationen, Highlights und Kontaktformular.">
+  <title>BMW 4er – Entwicklung Onepage Landingpage</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0f17;
+      --panel: rgba(15, 20, 32, 0.78);
+      --panel-strong: #111827;
+      --text: #f4f7fb;
+      --muted: #a8b3c7;
+      --line: rgba(255, 255, 255, 0.12);
+      --accent: #1f6feb;
+      --accent-2: #5bb7ff;
+      --highlight: #eef6ff;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(31, 111, 235, 0.25), transparent 30%),
+        radial-gradient(circle at 80% 15%, rgba(91, 183, 255, 0.2), transparent 20%),
+        linear-gradient(180deg, #05070c 0%, #0b0f17 55%, #0f1420 100%);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 40px;
+    }
+
+    header {
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+      margin-bottom: 28px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(6, 10, 18, 0.68);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ffffff, #d8e6ff);
+      color: #0a0f18;
+      font-weight: 800;
+      font-size: 0.75rem;
+      box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 8px;
+    }
+
+    .hero-copy,
+    .hero-visual,
+    .card,
+    .section,
+    .contact-form {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: clamp(28px, 4vw, 48px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.78rem;
+      margin-bottom: 18px;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-2), transparent);
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      margin-bottom: 18px;
+    }
+
+    .lead {
+      font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+      line-height: 1.7;
+      color: var(--highlight);
+      max-width: 60ch;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--accent), #4d8ff7);
+      color: white;
+    }
+
+    .button-secondary {
+      border-color: rgba(255, 255, 255, 0.18);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.45rem;
+      margin-bottom: 4px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .hero-visual {
+      padding: 26px;
+      display: grid;
+      gap: 16px;
+      align-content: space-between;
+      overflow: hidden;
+      position: relative;
+      min-height: 100%;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: auto -15% 20% auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91, 183, 255, 0.32), rgba(91, 183, 255, 0.06) 55%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .car-card {
+      padding: 22px;
+      border-radius: 28px;
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .car-label {
+      color: var(--muted);
+      font-size: 0.92rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .car-illustration {
+      position: relative;
+      height: 210px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(16, 24, 40, 0.85), rgba(6, 10, 18, 0.9)),
+        radial-gradient(circle at 50% 0%, rgba(31, 111, 235, 0.38), transparent 40%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .silhouette {
+      width: min(100%, 470px);
+      height: 130px;
+      border-radius: 60px 110px 36px 40px / 48px 92px 42px 48px;
+      background:
+        linear-gradient(180deg, #283346 0%, #0c1119 45%, #06090d 100%);
+      box-shadow:
+        inset 0 12px 24px rgba(255, 255, 255, 0.08),
+        0 25px 40px rgba(0, 0, 0, 0.55);
+      position: relative;
+      transform: skewX(-12deg);
+    }
+
+    .silhouette::before,
+    .silhouette::after {
+      content: "";
+      position: absolute;
+      bottom: -16px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, #8fa7c2 0 22%, #111827 23% 45%, #06090d 46% 100%);
+      border: 4px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.45);
+    }
+
+    .silhouette::before { left: 48px; }
+    .silhouette::after { right: 54px; }
+
+    .windshield {
+      position: absolute;
+      top: 16px;
+      left: 78px;
+      width: 150px;
+      height: 62px;
+      border-radius: 14px 54px 10px 10px;
+      background: linear-gradient(135deg, rgba(117, 185, 255, 0.5), rgba(255, 255, 255, 0.08));
+      transform: skewX(-14deg);
+    }
+
+    .highlight-strip {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 28px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(91, 183, 255, 0.95), transparent);
+      box-shadow: 0 0 28px rgba(91, 183, 255, 0.8);
+    }
+
+    .hero-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .spec {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .spec small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .spec strong {
+      display: block;
+      font-size: 1.08rem;
+    }
+
+    .section {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    .section h2 {
+      font-size: clamp(1.55rem, 2.8vw, 2.2rem);
+      margin-bottom: 10px;
+    }
+
+    .section p.section-intro {
+      color: var(--muted);
+      max-width: 70ch;
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 22px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.15rem;
+    }
+
+    .card p,
+    .list li {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .kpi {
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .kpi strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+    }
+
+    .kpi span {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(300px, 1.05fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .contact-pitch {
+      padding: 6px 0;
+    }
+
+    .contact-pitch ul {
+      margin: 18px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .contact-form {
+      padding: 22px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      background: rgba(6, 10, 18, 0.75);
+      color: var(--text);
+      padding: 14px 15px;
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(91, 183, 255, 0.85);
+      box-shadow: 0 0 0 4px rgba(31, 111, 235, 0.15);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .consent input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      flex: 0 0 auto;
+      accent-color: var(--accent);
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .status {
+      min-height: 1.5em;
+      margin-top: 12px;
+      color: var(--accent-2);
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 22px 4px 8px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .contact-wrap,
+      .cards,
+      .feature-list,
+      .kpi-row {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-specs,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        border-radius: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <div class="brand">
+          <span class="badge">4</span>
+          <span>BMW 4er Onepage</span>
+        </div>
+        <div class="nav-links">
+          <a href="#highlights">Highlights</a>
+          <a href="#modelle">Modelle</a>
+          <a href="#technik">Technik</a>
+          <a href="#kontakt">Kontakt</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow">Entwicklung · BMW 4er Reihe</div>
+          <h1 id="hero-title">Sportliche Präsenz. Präzise Performance. Klarer Auftritt.</h1>
+          <p class="lead">
+            Diese eigenständige Landingpage präsentiert die BMW 4er Reihe mit einer starken visuellen
+            Bühne, kompakten Produktinformationen und einem Kontaktformular am Seitenende – modern,
+            responsiv und direkt auf den Punkt.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#kontakt">Anfrage senden</a>
+            <a class="button button-secondary" href="#highlights">Mehr erfahren</a>
+          </div>
+          <div class="metrics" aria-label="Kurzübersicht">
+            <div class="metric">
+              <strong>3</strong>
+              <span>Karosserievarianten: Coupé, Cabrio und Gran Coupé</span>
+            </div>
+            <div class="metric">
+              <strong>4er</strong>
+              <span>Design mit langer Motorhaube und markanter BMW Nierengrafik</span>
+            </div>
+            <div class="metric">
+              <strong>Smart</strong>
+              <span>Digitale Assistenzsysteme für Komfort, Konnektivität und Sicherheit</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Produktvisualisierung">
+          <div class="car-card">
+            <div class="car-label">BMW 4er Coupé · Designstudie</div>
+            <div class="car-illustration" aria-hidden="true">
+              <div class="silhouette">
+                <div class="highlight-strip"></div>
+                <div class="windshield"></div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-specs">
+            <div class="spec">
+              <small>Charakter</small>
+              <strong>Dynamisch und elegant</strong>
+            </div>
+            <div class="spec">
+              <small>Innenraum</small>
+              <strong>Fahrerorientiert</strong>
+            </div>
+            <div class="spec">
+              <small>Fokus</small>
+              <strong>Sportliche Langstrecke</strong>
+            </div>
+            <div class="spec">
+              <small>Zielgruppe</small>
+              <strong>Design- und Performancefans</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="highlights" class="section" aria-labelledby="highlights-title">
+        <h2 id="highlights-title">Warum die BMW 4er Reihe überzeugt</h2>
+        <p class="section-intro">
+          Die Onepage führt die wichtigsten Produktmerkmale kompakt zusammen: ein ausdrucksstarkes
+          Exterieur, ein hochwertig gestaltetes Cockpit und ein Fahrgefühl, das sportliche Dynamik mit
+          alltagstauglicher Eleganz verbindet.
+        </p>
+        <div class="grid cards">
+          <article class="card">
+            <h3>Markantes Design</h3>
+            <p>
+              Flache Silhouette, klare Linien und selbstbewusste Proportionen setzen die BMW 4er Reihe
+              visuell in Szene und unterstreichen den sportlichen Anspruch.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Fahrorientiertes Cockpit</h3>
+            <p>
+              Die Bedienung ist auf den Fahrer ausgerichtet: übersichtliche Anzeigen, intuitive
+              Ergonomie und ein aufgeräumtes, hochwertiges Interieur.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Vernetzte Technik</h3>
+            <p>
+              Digitale Funktionen, moderne Assistenzsysteme und smarte Konnektivität unterstützen ein
+              komfortables und sicheres Fahrerlebnis.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="modelle" class="section" aria-labelledby="modelle-title">
+        <h2 id="modelle-title">Modelle und Einsatzbereiche</h2>
+        <p class="section-intro">
+          Die BMW 4er Reihe deckt unterschiedliche Bedürfnisse ab – vom puristischen Sportcoupé bis zum
+          komfortablen Gran Coupé für den täglichen Einsatz.
+        </p>
+        <div class="feature-list">
+          <article class="card">
+            <h3>BMW 4er Coupé</h3>
+            <ul class="list">
+              <li>Sportliche Linienführung mit kompaktem Auftritt</li>
+              <li>Ideal für Fahrerinnen und Fahrer mit Fokus auf Dynamik</li>
+              <li>Direktes, fokussiertes Handling für kurvige Strecken</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>BMW 4er Cabrio &amp; Gran Coupé</h3>
+            <ul class="list">
+              <li>Cabrio mit offenem Fahrgefühl und hochwertigem Komfort</li>
+              <li>Gran Coupé mit mehr Alltagstauglichkeit und flexiblem Raumangebot</li>
+              <li>Beide Varianten behalten den klaren, eleganten BMW-Charakter</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="technik" class="section" aria-labelledby="technik-title">
+        <h2 id="technik-title">Technik- und Komfort-Highlights</h2>
+        <p class="section-intro">
+          Die Seite fasst typische Produktvorteile der Modellreihe zusammen und macht die wichtigsten
+          Punkte sofort erfassbar.
+        </p>
+        <div class="kpi-row">
+          <div class="kpi">
+            <strong>Assistenz</strong>
+            <span>Funktionen für Parken, Spurhaltung und Komfort im Alltag.</span>
+          </div>
+          <div class="kpi">
+            <strong>Infotainment</strong>
+            <span>Digitale Anzeigen, klare Menüs und smarte Smartphone-Integration.</span>
+          </div>
+          <div class="kpi">
+            <strong>Effizienz</strong>
+            <span>Motoren- und Antriebsvarianten für ausgewogene Leistung und Verbrauch.</span>
+          </div>
+          <div class="kpi">
+            <strong>Design</strong>
+            <span>BMW-typische Proportionen mit hochwertigem Auftritt auf der Straße.</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="kontakt" class="section" aria-labelledby="kontakt-title">
+        <h2 id="kontakt-title">Kontaktformular</h2>
+        <p class="section-intro">
+          Zum Abschluss der Onepage gibt es ein übersichtliches Kontaktformular für Probefahrt,
+          Rückfragen oder ein persönliches Angebot.
+        </p>
+        <div class="contact-wrap">
+          <div class="contact-pitch">
+            <div class="card">
+              <h3>Unverbindliche Anfrage senden</h3>
+              <p>
+                Hinterlassen Sie Ihre Kontaktdaten und Ihr Modellinteresse. Die Anfrage ist bewusst
+                schlank gehalten, damit Interessenten schnell zur nächsten Aktion kommen.
+              </p>
+              <ul>
+                <li>Pflichtfelder für Name, E-Mail und Nachricht</li>
+                <li>Auswahl des bevorzugten BMW 4er Modells</li>
+                <li>Direkter Call-to-Action am Seitenende</li>
+              </ul>
+            </div>
+          </div>
+
+          <form class="contact-form" id="contact-form">
+            <div class="form-grid">
+              <div class="form-row">
+                <div>
+                  <label for="name">Name</label>
+                  <input id="name" name="name" type="text" placeholder="Max Mustermann" required>
+                </div>
+                <div>
+                  <label for="email">E-Mail</label>
+                  <input id="email" name="email" type="email" placeholder="max@example.de" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div>
+                  <label for="modell">Modellinteresse</label>
+                  <select id="modell" name="modell" required>
+                    <option value="">Bitte auswählen</option>
+                    <option>BMW 4er Coupé</option>
+                    <option>BMW 4er Cabrio</option>
+                    <option>BMW 4er Gran Coupé</option>
+                    <option>BMW M4</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="ort">Ort</label>
+                  <input id="ort" name="ort" type="text" placeholder="z. B. München">
+                </div>
+              </div>
+
+              <div>
+                <label for="nachricht">Nachricht</label>
+                <textarea id="nachricht" name="nachricht" placeholder="Wofür interessieren Sie sich?" required></textarea>
+              </div>
+
+              <label class="consent" for="consent">
+                <input id="consent" name="consent" type="checkbox" required>
+                <span>Ich stimme zu, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden.</span>
+              </label>
+
+              <div class="form-actions">
+                <button class="button button-primary" type="submit">Anfrage abschicken</button>
+                <span class="form-note">Antwortplatzhalter für eine spätere Backend-Anbindung.</span>
+              </div>
+              <p class="status" id="form-status" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      BMW 4er Onepage Landingpage · Standalone HTML · entwickelt für eine Präsentation auf einer Einzelseite
+    </footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      status.textContent = 'Vielen Dank! Ihre Anfrage wurde lokal vorbereitet und kann nun an ein Backend angebunden werden.';
+      form.reset();
+    });
+  </script>
+</body>
+</html>

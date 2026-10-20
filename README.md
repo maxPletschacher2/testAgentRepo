@@ -1,4 +1,11 @@
-# Einfache Taschenrechner-App (Python + Tkinter)
+# Projektübersicht
+
+Dieses Repository enthält zwei kleine, voneinander unabhängige Beispiele:
+
+1. eine einfache Taschenrechner-App in Python mit Tkinter
+2. eine eigenständige BMW 4er Onepage-Landingpage als HTML-Datei
+
+## 1) Einfache Taschenrechner-App (Python + Tkinter)
 
 Eine simple grafische Taschenrechner-App in Python mit Tkinter. Unterstützt Grundrechenarten, mehrstellige Zahlen und Dezimalzahlen. Fehler (z. B. Division durch 0) werden verständlich angezeigt.
 
@@ -34,3 +41,23 @@ Die GUI lässt sich manuell prüfen, indem man die App startet und die Buttons b
 ## Struktur
 - `calculator.py`: Tkinter-GUI und `CalculatorEngine` (Rechenlogik)
 - `tests/test_calculator_engine.py`: Unit-Tests für die Engine
+
+## 2) BMW 4er Onepage-Landingpage
+
+Die Landingpage liegt als eigenständige statische Datei im Projektstamm unter `index.html`.
+
+### Inhalt
+- Hero-Bereich mit BMW-4er-Positionierung
+- Produkt-Highlights und Modellübersicht
+- Technik-/Komfort-Kacheln
+- Kontaktformular am Seitenende
+
+### Öffnen
+- Die Datei `index.html` direkt im Browser öffnen
+
+### Tests
+- Zusätzliche Unit-Tests prüfen die HTML-Struktur:
+
+```
+python -m unittest discover -s tests -q
+```
